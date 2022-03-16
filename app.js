@@ -7,7 +7,7 @@ const io = require("socket.io")(server, {
   cors: {
     origin: [
       "http://localhost:3000",
-      "https://amritb.github.io/socketio-client-tool/"
+      "https://strongest-link.netlify.app/"
     ]
   }
 });
