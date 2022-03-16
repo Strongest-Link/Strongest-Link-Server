@@ -1,4 +1,4 @@
-const Game = require("../Models/Game");
+const Game = require("../models/Game");
 
 //get leaderboard
 async function leaderboard(req, res) {
