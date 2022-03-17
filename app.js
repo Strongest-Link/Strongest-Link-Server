@@ -5,10 +5,7 @@ const { createServer } = require("http");
 const server = createServer(app);
 const io = require("socket.io")(server, {
   cors: {
-    origin: [
-      "http://localhost:3000",
-      "https://strongest-link.netlify.app/"
-    ]
+    origin: ["http://localhost:3000", "https://strongest-link.netlify.app/"]
   }
 });
 global.io = io;
@@ -34,7 +31,7 @@ io.on("connection", (socket) => {
 
   socket.on("joinroom", (lobbyName) => {
     socket.join(`${lobbyName}`);
-    io.to(lobbyName).emit("game", "sup");
+    io.to(lobbyName).emit("game", `${socket.username} joined lobby`);
   });
 
   socket.on("answer", async ({ roomId, answer }) => {
