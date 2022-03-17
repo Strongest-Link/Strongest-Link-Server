@@ -5,10 +5,7 @@ const { createServer } = require("http");
 const server = createServer(app);
 const io = require("socket.io")(server, {
   cors: {
-    origin: [
-      "http://localhost:3000",
-      "https://strongest-link.netlify.app/"
-    ]
+    origin: ["http://localhost:3000", "https://strongest-link.netlify.app/"]
   }
 });
 global.io = io;
