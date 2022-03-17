@@ -84,17 +84,22 @@ async function deleteGame(req, res) {
     errorStatus = 500;
     await game.delete();
 
-    res.status(204);
+    res.status(204).send();
   } catch (err) {
     res.status(errorStatus).json(err);
   }
 }
 
 function makeTurn(room, user, answer) {
-  return new Promise(async (res, rej) => {
-    const game = await Game.findById(room);
-    const response = await game.makeTurn(user, answer);
-    res(response);
+  return new Promise(async (resolve, reject) => {
+    try {
+      const game = await Game.findById(room);
+      const response = await game.makeTurn(user, answer);
+      if(response.gameEnd) await game.updateScores();
+      resolve(response);
+    } catch (err) {
+      reject(err);
+    }
   });
 }
 
