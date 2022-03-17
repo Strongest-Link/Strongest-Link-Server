@@ -15,8 +15,8 @@ Server-side repo for the Strongest Link group project. Main project repo can be 
    
 * `npm start` to run the server (localhost port will be logged to console on startup).
 * `npm run dev` to run the server with [`nodemon`](https://github.com/remy/nodemon).
-* `npm test` to run tests.
-* `npm run coverage` to check test coverage.
+* `npm unitTest` to run unit tests.
+* `npm run coverage` to check unit test coverage.
 
 ### Deploy
 
