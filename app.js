@@ -34,16 +34,16 @@ io.on("connection", (socket) => {
 
   socket.on("joinroom", (lobbyName) => {
     socket.join(`${lobbyName}`);
-    io.to(lobbyName).emit("game", "sup");
+    io.to(lobbyName).emit("game", socket.username);
   });
 
-  socket.on("answer", async ({ roomId, answer }) => {
+  socket.on("answer", async ({ roomId, lobbyName, answer }) => {
     const response = await gameController.makeTurn(
       roomId,
       socket.username,
-      answer
+      decodeURIComponent(answer)
     );
-    io.emit("response", { response });
+    io.to(lobbyName).emit("response", response);
   });
 });
 

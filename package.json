@@ -6,8 +6,16 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon --legacy-watch index.js",
-    "test": "jest --watchAll --detectOpenHandles",
-    "coverage": "jest --coverage"
+    "test": "jest --testPathPattern=/integration/ --setupFiles ./test/integration/config.js --watchAll --detectOpenHandles --runInBand --verbose",
+    "unitTest": "jest --testPathPattern=/unit/ --watchAll --verbose",
+    "coverage": "jest --testPathPattern=/unit/ --coverage"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/integration/"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -15,6 +23,7 @@
   "devDependencies": {
     "jest": "^27.5.1",
     "nodemon": "^2.0.15",
+    "socket.io-client": "^4.4.1",
     "supertest": "^6.2.2"
   },
   "dependencies": {
