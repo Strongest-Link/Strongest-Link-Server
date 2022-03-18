@@ -131,11 +131,9 @@ class Game {
       try {
         // trivia api request
         this.token = await this.getToken();
-        this.questions = await this.getQuestions(
-          this.options.totalQuestions
-        );
-        
-        this.players.forEach(player => {
+        this.questions = await this.getQuestions(this.options.totalQuestions);
+
+        this.players.forEach((player) => {
           this.scores[player] = 0;
         });
         this.currentQuestion = 0;
@@ -162,21 +160,26 @@ class Game {
     return new Promise(async (resolve, reject) => {
       try {
         if (!this.active) throw new Error("Game is no longer in progress.");
-        if (this.players[this.currentQuestion % this.players.length] !== user) throw new Error("It's not your turn.");
+        if (this.players[this.currentQuestion % this.players.length] !== user) {
+          resolve("It's not your turn.");
+          return;
+        }
         let correct = false;
         let gameEnd = false;
         const question = this.questions[this.currentQuestion];
-        if (decodeURIComponent(question.correct_answer) === answer) {
+        if (decodeURIComponent(question.correct_answer) == answer) {
           this.scores[user] += 1;
           correct = true;
         }
-        if (this.currentQuestion >= this.options.totalQuestions - 1) gameEnd = true;
+        if (this.currentQuestion >= this.options.totalQuestions - 1)
+          gameEnd = true;
         if (gameEnd) {
           this.active = false;
         } else {
           this.currentQuestion += 1;
         }
-        resolve({ gameEnd, correct });
+        const currentState = new Game(this);
+        resolve({ gameEnd, correct, currentState });
       } catch (err) {
         reject(err);
       }

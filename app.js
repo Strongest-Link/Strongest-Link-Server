@@ -31,16 +31,19 @@ io.on("connection", (socket) => {
 
   socket.on("joinroom", (lobbyName) => {
     socket.join(`${lobbyName}`);
-    io.to(lobbyName).emit("game", `${socket.username} joined lobby`);
+    io.to(lobbyName).emit("joinroom", socket.username);
   });
 
-  socket.on("answer", async ({ roomId, answer }) => {
+  socket.on("answer", async ({ lobbyName, roomId, answer }) => {
     const response = await gameController.makeTurn(
       roomId,
       socket.username,
       answer
     );
-    io.emit("response", { response });
+    io.to(socket.id).emit("response", { response });
+    if (response != "It's not your turn.") {
+      socket.to(lobbyName).emit("next", { response });
+    }
   });
 });
 
