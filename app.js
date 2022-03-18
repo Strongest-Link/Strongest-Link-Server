@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
     const response = await gameController.makeTurn(
       roomId,
       socket.username,
-      answer
+      decodeURIComponent(answer)
     );
     io.to(socket.id).emit("response", { response });
     if (response != "It's not your turn.") {
