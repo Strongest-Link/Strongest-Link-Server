@@ -20,7 +20,7 @@ Server-side repo for the Strongest Link group project. Main project repo can be 
 
 ### Deploy
 
-<!-- to-do -->
+The server side is currently deployed at http://strongest-link.herokuapp.com/
 
 ## Project Goal
 
@@ -34,23 +34,44 @@ Build a multiplayer quiz game website where users can make lobbies and take turn
 
 ## Changelog
 
-
+* Added function to update game options on the model.
+* Changed game logic to send scores to the DB automatically after the last turn is played.
+* Change game logic to end the game when there are no more questions.
+* Made returned status codes on the controller more accurate.
+* Removed redundant create room socket event.
+* Created documentation for the API.
+* Show route changed to use the room name instead of room ID.
 
 ## Fixed Bugs
 
-
+- [x] Game model not exported in `./models/Game.js`.
+- [x] `undefined` error in `Game.prototype.makeTurn` function.
+- [x] Player scores not initialized to 0.
+- [x] Game doesn't end when last question is played.
+- [x] `TypeError` when deleting a game.
+- [x] Turns can be made on games that aren't running.
+- [x] HTML encoded characters appear in the questions/answers.
+- [x] Unresolved Promise when trying to join a game.
+- [x] Show route `GET /games/:id` returns an error.
+- [x] Changes made to games don't persist.
+- [x] Joining a room emits the same socket event as starting a game.
 
 ## Pitfalls & Discoveries
 
-
+* Originally special characters in the response data from the Open Trivia DB were encoded using HTML ampersand encoding which there was no straight-forward way to decode in JavaScript. We found out that the Open Trivia API has a parameter to specify the encoding of the response data from a selection. RFC 3986 URI encoding was chosen as it can be easily decoded using the built-in `decodeURIComponent()` function.
+* We ran into an issue where changes made to game instances via its methods did not persist and thus weren't reflected when subsequently calling `Game.all`. It turns out that 
 
 ## Remaining Bugs
 
-
+- [ ] Any errors encountered when starting a game causes the server to crash.
+- [ ] Some errors encountered when making a turn cause the server to crash.
+- [ ] Users can choose the same nickname leading to potentially confusing scoreboards.
 
 ## Improvements & Future Features
 
-
+* Round based games so that each player receives the same amount of questions per game.
+* A chat so that players can talk to each other during the game.
+* User accounts so that players can login and keep track of their games and scores.
 
 ## License
 
